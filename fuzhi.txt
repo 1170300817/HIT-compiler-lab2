@@ -1,0 +1,10 @@
+S,id = E ;,L = E ;,call id ( F ) ;,if B then S,if B then S else S,while B do S,S S
+E,E + E,E * E,- E,( E ),id,digit,L
+L,id [ E ],L [ E ],,,,,
+F,"F , E",E,,,,,
+B,B or B,B and B,not B,( B ),E > E,true,false
+P,D,S,,,,,
+D,D D,proc id ; D S,T id ;,,,,
+T,X C,record D,,,,,
+X,integer,real,,,,,
+C,[ digit ] C,no,,,,,
