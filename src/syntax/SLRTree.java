@@ -1,8 +1,9 @@
-package Entity;
+package syntax;
 
-public class SLRTree {
-	private String name;
-	private String[] childId;
+public class SLRTree {//SLR分析后的结果的树状图信息
+	
+	private String name;//父节点名
+	private String[] childId;//子节点
 	public String getName() {
 		return name;
 	}

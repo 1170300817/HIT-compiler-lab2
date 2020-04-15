@@ -1,4 +1,4 @@
-package complie2;
+package lexer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-import Entity.DFATable;
-import Entity.DFATableState;
-import Entity.grammerTable;
+import syntax.GrammerTable;
 
 public class readDFATable {
 		public static void main(String[] args) throws Exception {
@@ -41,8 +38,6 @@ public class readDFATable {
 	    int col_num = 0;
 	    String[][] tmpArray = new String[100][100];
 	    while ((str = bf.readLine()) != null) {
-	      // System.out.println(str);
-	      // String[] s = str.split(",");
 	      String[] s = str.trim().split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)", -1); // 双引号内的逗号不分割
 	                                                                                      // 双引号外的逗号进行分割
 	      for (int i = 0; i < s.length; i++) {
@@ -51,20 +46,14 @@ public class readDFATable {
 	          s[i] = s[i].replaceAll("\"\"", "\"");//还原“”为“
 	        }
 	      }
-	      // String pattern = "^\\\"";
-
 	      tmpArray[row_num] = s;
 	      col_num = s.length;
-	      // System.out.println(s[1]);
 	      row_num++;
 	    }
-	    // System.out.println(row_num);
-	    // System.out.println(col_num);
 	    String[][] returnArray = new String[row_num][col_num];
 	    for (int i = 0; i < row_num; i++) {
 	      for (int j = 0; j < col_num; j++) {
 	        returnArray[i][j] = tmpArray[i][j];
-	        // System.out.println(tmpArray[i][j]);
 	      }
 	    }
 	    bf.close();
@@ -151,7 +140,7 @@ public class readDFATable {
 	  }
      
      
-     public grammerTable[] Wenfa() throws Exception{
+     public GrammerTable[] Wenfa() throws Exception{
     	 File file = new File("fuzhi.txt");
          String[][] result = getData(file, 0);
          
@@ -162,25 +151,25 @@ public class readDFATable {
         	 List list = java.util.Arrays.asList(result[i]);
         	 map.put(result[i][0],list);
          }
-         grammerTable[] w=new grammerTable[36];
+         GrammerTable[] w=new GrammerTable[36];
          int i=0;
          Set<String> get = map.keySet(); 
          for (String test:get) {
-        	 String[] e=(String[]) map.get(test).toArray();
+        	 //将右侧产生式分开，每一个产生式创建一个grammerTable对象
+        	  int size = map.get(test).size();
+        	  String[] e= new String[size]; 
+        	  for(int j=0;j<size;j++) {
+        		  e[j] = map.get(test).get(j).toString();
+        	  }
 	          for(int j=1;j<e.length;j++){
-	        	  if(!e[j].equals(""))
-	        	  {
-	        		  w[i]=new grammerTable();
+	        	  if(!e[j].equals("")){
+	        		  w[i]=new GrammerTable();
 		        	  w[i].setName(test);
-		        	  
 		        	  String[] d=e[j].split(" ");
-	        		//  System.out.println("e "+ j+"bu为空  ");
 	        		  w[i].setValue(d);
-		        	//  System.out.println("i=  "+i);
 		        	  i++;
 	        	  }
-	          }
-	          
+	          }  
          }
 		return w;
      }

@@ -1,9 +1,10 @@
-package Entity;
+package syntax;
 
+//产生式集
 public class SLRFormula {
-	private String beforeString;
-	private String[] nextString;
-	private int flag;
+	private String beforeString;//非终结符
+	private String[] nextString;//后缀，产生式
+	private int flag;//标识·所在位置
 	public String getBeforeString() {
 		return beforeString;
 	}

@@ -13,6 +13,9 @@ import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+
+import lexer.readDFATable;
+
 import javax.swing.JLabel;
 
 import java.awt.Font;

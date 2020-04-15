@@ -14,8 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JLabel;
 
-import Entity.ACTIONTable;
-import Entity.grammerTable;
+import lexer.readDFATable;
+import syntax.ActionTable;
+import syntax.GrammerTable;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class SLRPanel {
     private DefaultTableModel slrListTbModel;
     private DefaultTableModel firstListTbModel;
     private DefaultTableModel followListTbModel;
-	private ArrayList<ACTIONTable> slrTable;
+	private ArrayList<ActionTable> slrTable;
 	/**
 	 * Launch the application.
 	 */
@@ -67,7 +68,7 @@ public class SLRPanel {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(176, 196, 222));
-		panel.setBounds(0, 0, 1335, 961);
+		panel.setBounds(0, 0, 1335, 800);
 		frame.getContentPane().add(panel);
 		
 		slrListTbModel = new DefaultTableModel(new Object[][] {},
@@ -78,8 +79,7 @@ public class SLRPanel {
 		slrListTbModel.addRow(new Object[] { "",  "+", "*", "-", "(", "id", "digit", "=", "call", ")", "[", "]", ",", ";",
 				">","true","false","not","and","or","if","then","else","while","do","proc","record","integer","real","$", 
 				"S", "E", "L", "F", "B","P","D","X","C","T"});
-		for(int j=1;j<85;j++)
-		{
+		for(int j=1;j<85;j++){
 			slrListTbModel.addRow(new Object[] {j, "","","","","","","","","", "", "", "", "", "", "", "", 
 				  	"","", "","","","","","","","","","", "",
 					"","","","", "", "", "","","",""});
@@ -88,26 +88,25 @@ public class SLRPanel {
 		slrListTb.setBackground(new Color(224, 255, 255));
 		slrListTb.setFillsViewportHeight(true);
 		slrListTb.setModel(slrListTbModel);
-		// errorListTbModel.addRow(new Object[] { "出错", "类别","出错原因" ,"value"});
 		RowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(slrListTbModel);
 		panel.setLayout(null);
 		slrListTb.setRowSorter(sorter);
 		JScrollPane slrSP = new JScrollPane();
 		slrSP.setViewportView(slrListTb);
-		slrSP.setBounds(14, 458, 1307, 477);
+		slrSP.setBounds(14, 408, 1307, 350);//向上提高50
 		panel.add(slrSP);
 		
 		JLabel lblDfaTable = new JLabel("SLR Table");
 		lblDfaTable.setFont(new Font("宋体", Font.BOLD, 55));
-		lblDfaTable.setBounds(526, 369, 344, 106);
+		lblDfaTable.setBounds(526, 319, 344, 106);
 		panel.add(lblDfaTable);
-		grammerTable[] grammerTable = new readDFATable().Wenfa();
+		GrammerTable[] grammerTable = new readDFATable().Wenfa();
 		slrTable=new demo().getSLRTable(grammerTable);
 		ActionTest(slrTable);
 		
 // first集表格
 		firstListTbModel = new DefaultTableModel(new Object[][] {}, new String[] {"符号", "FIRST集" });
-		String[][] firstGroup = new demo().getFirstDroup(grammerTable);
+		String[][] firstGroup = new demo().getFirstGroup(grammerTable);
 		for (int i = 0; i < firstGroup.length; i++) {
 			for (int j = 0; j < 2; j++) {
 				System.out.print(firstGroup[i][j] + "  ");
@@ -133,7 +132,7 @@ public class SLRPanel {
 		firstListTb.setModel(firstListTbModel);
 		firstListTb.setRowSorter(sorter1);
 		JScrollPane firstSP = new JScrollPane();
-		firstSP.setBounds(14, 95, 640, 279);
+		firstSP.setBounds(14, 95, 640, 229);
 		panel.add(firstSP);
 		firstSP.setViewportView(firstListTb);
 		
@@ -143,7 +142,7 @@ public class SLRPanel {
 		followListTb.setModel(followListTbModel);
 		followListTb.setRowSorter(sorter4);
 		JScrollPane followSP = new JScrollPane();
-		followSP.setBounds(681, 95, 640, 279);
+		followSP.setBounds(681, 95, 640, 229);
 		panel.add(followSP);
 		followSP.setViewportView(followListTb);
 		
@@ -157,10 +156,8 @@ public class SLRPanel {
 		lblFollowTable.setBounds(785, 13, 466, 80);
 		panel.add(lblFollowTable);
 	}
-	public void ActionTest(ArrayList<ACTIONTable> actionTable){
+	public void ActionTest(ArrayList<ActionTable> actionTable){
 		for (int i = 0; i < actionTable.size(); i++) {
-			System.out.print("状态: " + actionTable.get(i).getState());
-			System.out.print("  输入 :" + actionTable.get(i).getInput());
 			String[] str1 =actionTable.get(i).getAction();
 			StringBuffer sb1 = new StringBuffer();
 			for (int y = 0; y < str1.length; y++) {
@@ -261,6 +258,5 @@ public class SLRPanel {
 		default:
 			return 0;
 		}
-		//return -1;
 	}
 }

@@ -1,8 +1,11 @@
-package Entity;
+package syntax;
 
-public class firstTable {
-	String name;
-	String[] value;
+//FIRST集的存入 如FIRST(S)=(+,*)
+
+public class FirstTable {
+	
+	String name;//非终结符
+	String[] value;//first集
 	public String getName() {
 		return name;
 	}
